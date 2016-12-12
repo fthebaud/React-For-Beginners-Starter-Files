@@ -17,8 +17,10 @@ module.exports = {
     browser: true
   },
 
+  plugins: ['react'],
+
   //extending shareable configs
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
 
 
   rules: {
