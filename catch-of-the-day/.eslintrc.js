@@ -13,7 +13,8 @@ module.exports = {
 
   // environments : define a set of global variables
   env: {
-    es6: true
+    es6: true,
+    browser: true
   },
 
   //extending shareable configs
