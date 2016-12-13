@@ -3,8 +3,13 @@ import React from 'react';
 // we just need to import the render method from the ReactDom package
 import { render } from 'react-dom';
 
-//import du module StorePicker. Il faut donner un chemin sinon webpack va chercher dans nodemodules
-import StorePicker from './components/StorePicker';
+//importing css using webpack
+import './css/style.css';
+
+
+//import de module "homemade". Il faut donner un chemin sinon webpack va chercher dans nodemodules
+// import StorePicker from './components/StorePicker';
+import App from './components/App';
 
 //rendering the component in the DOM
-render(<StorePicker/>, document.querySelector('#main'));
+render(<App/>, document.querySelector('#main'));
