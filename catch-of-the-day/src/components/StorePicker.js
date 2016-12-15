@@ -18,7 +18,9 @@ class StorePicker extends React.Component {
   goToStore(event) {
     // stopping the form from submitting
     event.preventDefault();
-    console.log('go to', this.storeInput.value);
+    const storeId = this.storeInput.value;
+    // there is no page refresh, react uses HTML 5 's PUSH STATE
+    this.context.router.transitionTo(`/store/${storeId}`);
   }
 
   // rendering some html. function is written "es6 style" (render() = function render())
@@ -38,6 +40,14 @@ class StorePicker extends React.Component {
     );
   }
 }
+
+// context (declare something at the top level, and it will be available to all the lower levels. (available globaly) "surfacing the router from the parent")
+// vs props (used to pass data from a parent component to a child component) vs state (used to hold the data of the component)
+// on ajoute le router au context du composant
+StorePicker.contextTypes = {
+  router: React.PropTypes.object
+};
+
 
 //export of the module as default
 export default StorePicker;

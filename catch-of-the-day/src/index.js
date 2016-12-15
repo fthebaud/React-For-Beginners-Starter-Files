@@ -17,6 +17,10 @@ import NotFound from './components/NotFound';
 
 const Root = () => {
   return (
+      // The BrowserRouter is the parent of everything in our application
+      // ReactRouter 4 : two main ways to change the page :
+      // 1 - declarative : use <redirect> component
+      // 2 - imperative API
       <BrowserRouter>
         <div>
           <Match exactly pattern="/" component={StorePicker} />
