@@ -8,6 +8,9 @@ import Fish from './Fish';
 //importing the data
 import fishSamples from '../sample-fishes';
 
+//importing the base
+import base from '../base';
+
 class App extends React.Component {
   constructor() {
     //we need to call super first to initialize the react Component
@@ -24,6 +27,35 @@ class App extends React.Component {
       fishes: {},
       order:{}
     };
+  }
+
+  //this is a react method (already binded)
+  // Runs right before <App> is rendered
+  componentWillMount(){
+     // setting up two way data binding between your component's state and your Firebase.
+    this.ref = base.syncState(`${this.props.params.storeId}/fishes` , //the relative firebase endpoint to which we will bind our state
+      {
+        context: this, //context of the component
+        state: 'fishes' //state property we want to sync with firebase
+      }
+    );
+
+    //check if there is something in localStorage
+    const localStorageRef = localStorage.getItem(`order-${this.props.params.storeId}`) ;
+    if (localStorageRef) {
+      //update our app component state
+      this.setState({
+        order: JSON.parse(localStorageRef)
+      });
+    }
+  }
+
+  componentWillUnmount(){
+    base.removeBinding(this.ref);//removes the listener to firebase
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
   }
 
   addFish(fish) {
@@ -44,7 +76,6 @@ class App extends React.Component {
     order[fishKey] = order[fishKey] + 1 || 1;
     // update the state
     this.setState({ order });
-
   }
 
   loadSamples() {
