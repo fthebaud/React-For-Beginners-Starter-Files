@@ -19,8 +19,11 @@ class App extends React.Component {
 
     //binding the addFish method to the app
     this.addFish = this.addFish.bind(this);
+    this.updateFish = this.updateFish.bind(this);
+    this.removeFish = this.removeFish.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
     this.addToOrder = this.addToOrder.bind(this);
+    this.removeFromOrder = this.removeFromOrder.bind(this);
 
     // initial state
     this.state = {
@@ -69,12 +72,32 @@ class App extends React.Component {
     this.setState({ fishes }); //es6, equivalent to { fishes : fishes }
   }
 
+  updateFish(key, updatedFish){
+    const fishes = Object.assign({}, this.state.fishes);
+    fishes[key] = updatedFish;
+    this.setState({fishes});
+  }
+
+  removeFish(key){
+    const fishes = Object.assign({}, this.state.fishes);
+    // delete fishes[key];
+    // Since we are hooked up with firebase, we need to set to null. It's a bit weird...
+    fishes[key] = null;
+    this.setState({fishes});
+  }
+
   addToOrder(fishKey){
     // take a copy of the actual state
     const order = Object.assign({}, this.state.order);
     //add or update the new number of fish
     order[fishKey] = order[fishKey] + 1 || 1;
     // update the state
+    this.setState({ order });
+  }
+
+  removeFromOrder(key){
+    const order = Object.assign({}, this.state.order);
+    delete order[key];
     this.setState({ order });
   }
 
@@ -96,8 +119,16 @@ class App extends React.Component {
             }
           </ul>
         </div>
-        <Order fishes={this.state.fishes} order={this.state.order}/>
-        <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
+        <Order
+          fishes={this.state.fishes}
+          order={this.state.order}
+          removeFromOrder={this.removeFromOrder}/>
+        <Inventory
+          fishes={this.state.fishes}
+          addFish={this.addFish}
+          updateFish={this.updateFish}
+          removeFish={this.removeFish}
+          loadSamples={this.loadSamples}/>
       </div>
     );
   }
