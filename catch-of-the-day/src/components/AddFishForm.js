@@ -32,4 +32,8 @@ class AddFishFom extends React.Component {
   }
 }
 
+AddFishFom.propTypes = {
+  addFish: React.PropTypes.func.isRequired
+};
+
 export default AddFishFom;
